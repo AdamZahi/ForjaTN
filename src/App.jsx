@@ -77,7 +77,6 @@ function App() {
   useEffect(() => {
     fetchTrendingMovies();
   }, []);
-
   return(
     <main>
       <div className="pattern"></div>
@@ -94,7 +93,7 @@ function App() {
       <div className="overflow-x-auto custom-scrollbar">
         <ul className="flex gap-x-32 p-4 min-w-max">
           {trendingMovies.map((movie, index) => (
-            <li key={movie.$id} className="flex-shrink-0 w-40">
+            <li key={movie.title + movie.index} className="flex-shrink-0 w-40">
               <p>{index + 1}</p>
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -118,7 +117,7 @@ function App() {
           ) : (
             <ul>
               {movies.map((movie) => (
-                <MovieCard movie= {movie} />
+                <MovieCard key={movie.id || movie.$id} movie= {movie} />
               ))}
             </ul>
           )}
