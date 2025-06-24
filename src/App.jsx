@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './Components/SearchBar.jsx';
+import MovieCard from './Components/MovieCard.jsx';
 import Spinner from './Components/Spinner.jsx';
-import { useDebounce } from 'react-use'
+// import { useDebounce } from 'react-use'
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
@@ -16,19 +17,19 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [searchTerm, setSearchTerm] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
     // Debounce the search term to prevent making too many API requests
   // by waiting for the user to stop typing for 500ms
-  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
+  // useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
 
-  const fetchMovies = async (query  = '') => {
+  const fetchMovies = async () => {
     setIsLoading(true);
     setErrorMessage('');
     try{
-      const endpoint = `${TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`;
+      const endpoint = `${TMDB_BASE_URL}/discover/movie?include_adult=false&include_video=false&page=1&sort_by=vote_count.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
       if (!response.ok) {
         throw new Error('Network response was not ok: '+ response.statusText);
@@ -72,8 +73,8 @@ function App() {
     }
   }
   useEffect(() => {
-    fetchMovies(debouncedSearchTerm);
-  },[debouncedSearchTerm])
+    fetchMovies();
+  },[])
   useEffect(() => {
     fetchTrendingMovies();
   }, []);
