@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 function MovieCard({ movie }) {
+    const navigate = useNavigate();
     const GENRES = [
         { id: 28, name: "Action" },
         { id: 12, name: "Adventure" },
@@ -21,7 +23,8 @@ function MovieCard({ movie }) {
         { id: 37, name: "Western" }
     ];
     return (
-    <div className="movie-card hover:scale-105 transition-transform duration-300 cursor-pointer">
+    <div className="movie-card hover:scale-105 transition-transform duration-300 cursor-pointer"
+        onClick={()=> navigate(`/movie/${movie.id || movie.$id}`)}>
         <img
             src={movie.poster_path ?
             `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : '/no-movie.png'}
